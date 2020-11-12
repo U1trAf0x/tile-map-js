@@ -21,30 +21,62 @@ class Player
 {
     constructor(spdX, spdY, x, y)
     {
-        this.speed = new Speed(spdX, spdY);
+        this.spd = new Speed(spdX, spdY);
         this.x = x;
         this.y = y;
     }
 }
 
-var player = new Player(5, 5, 0, 0);
-
-console.log(player.x, player.y, player.speed.x, player.speed.y);
+var player = new Player(0.001, 0.001, 0.0, 0.0);
 
 function gameLoop()
 {
     drawPlayer(player);
     inputHandle(player);
-    console.log("test");
 }
 
 function drawPlayer(player)
 {
+    ctx.clearRect(0, 0, 10 * TILE, 9 * TILE);
     ctx.fillStyle = "#f00";
-    ctx.fillRect(player.x, player.y, TILE, TILE);
+    ctx.fillRect(player.x * TILE, player.y * TILE, TILE, TILE);
 }
 
 function inputHandle(player)
 {
-
+    document.addEventListener("keydown", event =>
+    {
+        console.log(event.keyCode);
+        switch (event.keyCode)
+        {
+            case 38:
+                player.y -= player.spd.y;
+                break;
+            case 40:
+                player.y += player.spd.y;
+                break;
+            case 39:
+                player.x += player.spd.x;
+                break;
+            case 37:
+                player.x -= player.spd.x;
+                break;
+        }
+    });
+    if (player.x > 9)
+    {
+        player.x = 9;
+    }
+    if (player.x < 0)
+    {
+        player.x = 0;
+    }
+    if (player.y > 8)
+    {
+        player.y = 8;
+    }
+    if (player.y < 0)
+    {
+        player.y = 0;
+    }
 }
